@@ -1,5 +1,5 @@
 /*
- * Authors: Dexter DeVries, Anisha Munjal, 
+ * Authors: Dexter DeVries, Anisha Munjal, Kayla Pierson, 
  * Description: An implementation of a self-balancing binary search tree (AVL tree). 
  * 
  */

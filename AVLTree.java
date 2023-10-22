@@ -10,9 +10,6 @@
  */
 
 public class AVLTree {
-	private int nodeCount;	// number of nodes in AVL tree
-	private AVLTree root;   // the root of the tree
-
     // class Node - a node in a BST
     class Node {      
         int val;  // the integer value for this node
@@ -28,6 +25,9 @@ public class AVLTree {
             height = 0;  
         }       
     }  
+
+    private int nodeCount;	// number of nodes in AVL tree
+	private Node root;   // the root of the tree
 
     // constructor - initialize fields
     public AVLTree() {

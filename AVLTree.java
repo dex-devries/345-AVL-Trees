@@ -56,18 +56,35 @@ public class AVLTree {
     /**
      * Insert value into an AVL tree
      * 
+     * @param node, the Node into
      * @param val, the integer value to insert into the AVL tree
      * @return AVLTree, the root node of the AVL tree
      */
-    public AVLTree insert(int val) {
+    
+    public Node insert(Node node, int val) {
+    	Node newNode = new Node(val); 	
+    	
     	// check if AVL tree is empty
     	if (root == null) {
     		// create a new node of AVL tree if the tree is empty
-    		root = new AVLTree();
-    	
-    		// set the node's value to val
-    		
+    		root = newNode;	
     		return root;
+    	}
+    	
+    	if (val < node.val) {
+    		if (node.left == null) {
+    			node.left = newNode;
+    			return newNode;
+    		}
+    		return insert(node.left, val);
+    	}
+    	
+    	if (val > node.val) {
+    		if (node.right == null) {
+    			node.right = newNode;
+    			return newNode;
+    		}
+    		return insert(node.right, val);
     	}
     	return root;
     }

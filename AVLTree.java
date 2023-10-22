@@ -47,8 +47,28 @@ public class AVLTree {
     	if (root == null) {
     		// create a new node of AVL tree if the tree is empty
     		root = new AVLTree();
+    	
+    		// set the node's value to val
     		
+    		return root;
     	}
     	return root;
+    }
+    
+    /**
+     * String representation of the AVL tree
+     */
+    public String toString() {
+    	String str = null;
+    	
+    	// check if AVL tree is empty
+    	if (root == null) {
+    		str = "AVL tree is empty.";
+    		return str;
+    	}
+    	
+    	// print contents of tree in order traversal
+    	
+		return str;
     }
 }

@@ -62,8 +62,10 @@ public class AVLTree {
      */
     
     public Node insert(Node node, int val) {
-    	Node newNode = new Node(val); 	
+    	Node newNode = new Node(val);
     	
+    	nodeCount++;
+    	   	
     	// check if AVL tree is empty
     	if (root == null) {
     		// create a new node of AVL tree if the tree is empty

@@ -10,8 +10,8 @@
  */
 
 public class AVLTree {
-	private int nodeCount = 0;		// number of nodes in AVL tree
-	private AVLTree root = null;
+	private int nodeCount;	// number of nodes in AVL tree
+	private AVLTree root;   // the root of the tree
 
     // class Node - a node in a BST
     class Node {      
@@ -29,9 +29,10 @@ public class AVLTree {
         }       
     }  
 
-    // constructor
+    // constructor - initialize fields
     public AVLTree() {
-        
+        this.nodeCount = 0;
+        this.root = null;
     }
     
     /**

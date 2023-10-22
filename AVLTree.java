@@ -91,18 +91,50 @@ public class AVLTree {
     
     /**
      * String representation of the AVL tree
+     * 
+     * @return String, the string generated for the representation
      */
     public String toString() {
-    	String str = null;
+    	String str = "";
+    	Node tmp = root;
     	
     	// check if AVL tree is empty
-    	if (root == null) {
-    		str = "AVL tree is empty.";
+    	if (tmp == null) {
+    		str += "AVL tree is empty.";
     		return str;
     	}
     	
-    	// print contents of tree in order traversal
-    	
-		return str;
+    	// return string representation of the tree  	
+		return str + toStringHelper(tmp, str);
     }
+
+    /**
+     * Helper method to generate string representation of tree
+     * 
+     * @param tmp, the Node to display
+     * @param str, the string representation to add into
+     * @return String, the string generated for the representation
+     */
+	private String toStringHelper(Node tmp, String str) {
+    	if (tmp == null)
+    		return null;
+    	
+    	// add spaces based on node height
+    	int spaces = (tmp.height * 3);
+    	while (spaces-- != 0) {
+    		System.out.print(" ");
+    	}
+    	
+		System.out.println(tmp.val + "[Height=" + tmp.height + "]");
+		
+		// display left subtree
+		if (tmp.left != null)
+			str += toStringHelper(tmp.left, str);
+		
+		// display right subtree
+		if (tmp.right != null)
+			str += toStringHelper(tmp.right, str);
+		
+		return str;
+	}
 }

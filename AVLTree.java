@@ -13,9 +13,25 @@ public class AVLTree {
 	private int nodeCount = 0;		// number of nodes in AVL tree
 	private AVLTree root = null;
 
+    // class Node - a node in a BST
+    class Node {      
+        int val;  // the integer value for this node
+        int height;  // the height of this node in the tree
+        Node left;  // the left child node - inits to null
+        Node right;  // the right child node - inits to null
+      
+        // constructor with int val as parameter - creates a Node with value val
+        public Node(int val) {  
+            left = null;  
+            right = null;  
+            this.val = val;  
+            height = 0;  
+        }       
+    }  
+
     // constructor
     public AVLTree() {
-
+        
     }
     
     /**

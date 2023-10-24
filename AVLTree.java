@@ -1,5 +1,5 @@
 /*
- * AUTHORS: Dexter DeVries, Anisha Munjal, Kayla Pierson, 
+ * AUTHORS: Dexter DeVries, Anisha Munjal, Kayla Pierson, Gurvir Dhillon
  * FILE: AVLTree.java
  * ASSIGNMENT: Project
  * COURSE: CSC 345 Fall 2023

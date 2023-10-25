@@ -63,41 +63,53 @@ public class AVLTree {
     public int size() {
     	return nodeCount;
     }
+
+    /**
+     * Insert a new Node into the AVLTree with value val
+     * Call recursive helper function insertHelper with (root, val)
+     * Note: pass root node to helper
+     * @return integer, the number of elements in the AVL tree
+     */
+
+    public void insert(int val) {
+        insertHelper(root, val);
+    }
     
     /**
-     * Insert value into an AVL tree
+     * Recursive helper function for insert
+     * Creates new Node object with value val and iterates through the tree to find the correct position to insert
      * 
-     * @param node, the Node into
-     * @param val, the integer value to insert into the AVL tree
+     * @param node, the node tha val will be compared against to determine position for insert
+     * @param val, the integer value to insert (new Node with value val) into the AVL tree
      * @return AVLTree, the root node of the AVL tree
      */
     
     public Node insertHelper(Node node, int val) {
-    	Node newNode = new Node(val);
-    	
-    	nodeCount++;
     	   	
     	// check if AVL tree is empty
     	if (root == null) {
     		// create a new node of AVL tree if the tree is empty
-    		root = newNode;	
+    		root = new Node(val);	
+            nodeCount++;
     		return root;
     	}
     	
     	if (val < node.val) {
     		if (node.left == null) {
-    			node.left = newNode;
-    			return newNode;
+    			node.left = new Node(val);
+                nodeCount++;
+    			return node.left;
     		}
-    		return insert(node.left, val);
+    		return insertHelper(node.left, val);
     	}
     	
     	if (val > node.val) {
     		if (node.right == null) {
-    			node.right = newNode;
-    			return newNode;
+    			node.right = new Node(val);
+                nodeCount++;
+    			return node.right;
     		}
-    		return insert(node.right, val);
+    		return insertHelper(node.right, val);
     	}
     	return root;
     }

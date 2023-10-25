@@ -27,12 +27,14 @@ public class AVLTree {
     }  
 
     private int nodeCount;	// number of nodes in AVL tree
-	private Node root;   // the root of the tree
+	public Node root;   // the root of the tree
+    private int height; // the height of the tree
 
     // constructor - initialize fields
     public AVLTree() {
         this.nodeCount = 0;
         this.root = null;
+        this.height = 0;
     }
     
     /**
@@ -42,6 +44,15 @@ public class AVLTree {
      */
     public boolean isEmpty() {
     	return nodeCount == 0;
+    }
+
+    /**
+     * Return the height of the AVLTree
+     * 
+     * @return int height
+     */
+    public int height() {
+    	return height;
     }
     
     /**
@@ -61,7 +72,7 @@ public class AVLTree {
      * @return AVLTree, the root node of the AVL tree
      */
     
-    public Node insert(Node node, int val) {
+    public Node insertHelper(Node node, int val) {
     	Node newNode = new Node(val);
     	
     	nodeCount++;

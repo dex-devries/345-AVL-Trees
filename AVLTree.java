@@ -65,6 +65,15 @@ public class AVLTree {
     }
 
     /**
+     * Returns the root node of the AVL tree
+     * 
+     * @return Node root
+     */
+    public Node root() {
+    	return root;
+    }
+
+    /**
      * Insert a new Node into the AVLTree with value val
      * Call recursive helper function insertHelper with (root, val)
      * Note: pass root node to helper

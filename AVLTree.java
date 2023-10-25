@@ -72,7 +72,15 @@ public class AVLTree {
      */
 
     public void insert(int val) {
-        insertHelper(root, val);
+        if (root == null) {
+    		// create a new node of AVL tree if the tree is empty
+    		root = new Node(val);	
+            nodeCount = 1; 
+            this.height = 0;
+    	}
+        else {
+            insertHelper(root, val, 1);
+        }
     }
     
     /**
@@ -84,32 +92,26 @@ public class AVLTree {
      * @return AVLTree, the root node of the AVL tree
      */
     
-    public Node insertHelper(Node node, int val) {
-    	   	
-    	// check if AVL tree is empty
-    	if (root == null) {
-    		// create a new node of AVL tree if the tree is empty
-    		root = new Node(val);	
-            nodeCount++;
-    		return root;
-    	}
-    	
+    public Node insertHelper(Node node, int val, int height) {
+
     	if (val < node.val) {
     		if (node.left == null) {
     			node.left = new Node(val);
                 nodeCount++;
+                if (this.height < height) {this.height = height;}
     			return node.left;
     		}
-    		return insertHelper(node.left, val);
+    		return insertHelper(node.left, val, height+1);
     	}
     	
     	if (val > node.val) {
     		if (node.right == null) {
     			node.right = new Node(val);
                 nodeCount++;
+                if (this.height < height) {this.height = height;}
     			return node.right;
     		}
-    		return insertHelper(node.right, val);
+    		return insertHelper(node.right, val, height+1);
     	}
     	return root;
     }

@@ -125,6 +125,29 @@ public class AVLTree {
     	return root;
     }
     
+
+    public boolean isBalanced(Node root)
+    {
+    	if (root == null)
+    	{
+    		return true;
+    	}
+    	else
+    	{
+    		int left_treeHeight = root.left.height;
+    		int right_treeHeight = root.right.height;
+    		
+    		if (Math.abs(left_treeHeight-right_treeHeight)<=1 && isBalanced(root.left) && isBalanced(root.right))
+    		{
+    			return true; // is balanced
+    		}
+    		
+    		return false;
+    	}
+    	
+    }
+    
+    
     /**
      * String representation of the AVL tree
      * 

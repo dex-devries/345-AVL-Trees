@@ -125,7 +125,11 @@ public class AVLTree {
     	return root;
     }
     
-
+    /**
+     * Checks whether the AVL Tree is balanced or not
+     * @param root, the root of the AVL tree
+     * @return true/false, true if AVL tree is balanced
+     */
     public boolean isBalanced(Node root)
     {
     	if (root == null)
@@ -141,10 +145,83 @@ public class AVLTree {
     		{
     			return true; // is balanced
     		}
-    		
     		return false;
     	}
+    }
+    
+    
+    /**
+     * Removes a node from the AVL tree given its value. If the tree is
+     * unbalanced after removal, the balance function is called.
+     * 
+     * @param root, the root of the tree
+     * @param val, the value of the node that is going to be removed
+     * @return Node object, the removed node
+     */
+    
+    public Node remove(Node root, int val)
+    {
+    	if (root==null)  // if tree is empty
+    	{
+    		return root;
+    	}
     	
+    	if (root.left==null && root.right==null)  // if tree has one node
+    	{
+    		root = null;
+    	}
+ 
+    	else  // if tree has more than one node
+    	{
+    		if (val < root.val)
+    		{
+    			root.left = remove(root.left, val);
+    		}
+    		else if (val > root.val)
+    		{
+    			root.right = remove(root.right, val);
+    		}
+    		else // found node, delete
+    		{
+    			//no children
+    			if (root.left == null && root.right == null)
+    			{
+    				root = null; 
+    			}
+    			
+    			//two children; replacement will be its right node
+    			else if (root.left != null && root.right!=null)
+    			{
+    				Node replacement = root.right;
+    				root.val = replacement.val;
+    				
+    				// remove the replacements old position Node
+    				root.right = remove(root.right, replacement.val);
+    				
+    			}
+    			// node has one child
+    			else
+    			{
+    				if (root.left == null)
+    				{
+    					root = root.right;
+    				}
+    				else
+    				{
+    					root = root.left;
+    				}
+    			}
+    		}
+    	}
+		root.height = 1 + Math.max(root.left.height, root.right.height);
+    	
+		if (isBalanced(root())==false)
+		{
+			// balance() 
+			// call the balance function to balance the tree
+		}
+		
+		return root;
     }
     
     

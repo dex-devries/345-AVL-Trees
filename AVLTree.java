@@ -226,7 +226,6 @@ public class AVLTree {
 			str += "AVL tree is empty.";
 			return str;
 		}
-		str += "AVL Tree:\n";
 
 		// return string representation of the tree
 		return str + toStringHelper(tmp, str);
@@ -249,7 +248,7 @@ public class AVLTree {
 			System.out.print(" ");
 		}
 
-		System.out.println(tmp.val + "[Height=" + tmp.height + "]");
+		System.out.println("Val=" + tmp.val + " [H=" + tmp.height + "]");
 
 		// display left subtree
 		if (tmp.left != null)

@@ -137,7 +137,7 @@ public class AVLTree {
 	 * @return
 	 */
 	public int findHeight(Node node){  
-        if(root == null) {  
+		if(node == null) {  
             return 0;  
         }  
         else {  

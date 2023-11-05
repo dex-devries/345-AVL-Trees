@@ -245,10 +245,13 @@ public class AVLTree {
 		// add spaces based on node height
 		int spaces = (tmp.height * 3);
 		while (spaces-- != 0) {
-			System.out.print(" ");
+			System.out.print("");
 		}
 
-		System.out.println("Val=" + tmp.val + " [H=" + tmp.height + "]");
+		int h = tmp.height;
+		while (h-- > 1)
+			System.out.print("-");
+		System.out.print("(" + tmp.val + " ,h=" + tmp.height + ")\n|-");
 
 		// display left subtree
 		if (tmp.left != null)

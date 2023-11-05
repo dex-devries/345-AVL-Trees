@@ -11,6 +11,7 @@ public class Test {
 	private static String testName = "AVL Tests";
 
 	public static void main(String[] args) {
+
 		String result;
 		// Constructor test
 		AVLTree tree = new AVLTree();
@@ -23,11 +24,21 @@ public class Test {
 		result = tree.isEmpty() ? passed : failed;
 		System.out.println("Init isEmpty() test: " + result);
 
+		boolean showTree = false;
+		if (args.length == 1) {
+			if (args[0].equals("-showTree")) {
+				showTree = true;
+			}
+			else {
+				System.err.println("Invalid command line argument: " + args[0]);
+			}
+		}
+
 		// Insert test 1
-		testInsertion();
+		testInsertion(showTree);
 
 		// isBalanced test 1
-		testIsBalanced();
+		testIsBalanced(showTree);
 		
 		// TODO: Gurvir - Add call to Rebalance Test here
 		// testRebalance()
@@ -38,16 +49,16 @@ public class Test {
 
 	/**
 	 * Test AVL node insertion
+	 * @param boolean showTree, a boolean to indicate whether to print the tree after running tests 
 	 * 
 	 * @return AVLTree, the AVL tree at the end of the test
 	 */
-	private static AVLTree testInsertion() {
+	private static AVLTree testInsertion(boolean showTree) {
 		AVLTree tree = new AVLTree();
 		String result = failed;
 		int numNodes = 0;
 		System.out.println("*Begin insert() test 1*");
 		testName = "insert() test 1: ";
-		boolean showTree = true;
 
 		// Test insertion: 1 root, 10 left nodes, 5 right nodes
 		// root node (val = 11)
@@ -88,16 +99,16 @@ public class Test {
 
 	/**
 	 * Test isBalanced method
+	 * @param boolean showTree, a boolean to indicate whether to print the tree after running tests 
 	 * 
 	 * @return AVLTree, the AVL tree at the end of the test
 	 * 
 	 */
-	private static AVLTree testIsBalanced() {
+	private static AVLTree testIsBalanced(boolean showTree) {
 		AVLTree tree = new AVLTree();
 		String result;
 		System.out.println("*Begin isBalanced() test 1*");
 		testName = "isBalanced() test 1: ";
-		boolean showTree = true;
 
 		// isbalanced test 1
 		// this creates a tree with four levels
@@ -141,14 +152,14 @@ public class Test {
 
 	/**
 	 * Test AVL node rebalancing
+	 * @param boolean showTree, a boolean to indicate whether to print the tree after running tests 
 	 * 
 	 * @return AVLTree, the AVL tree at the end of the test
 	 */
-	private static AVLTree testRebalance() {
+	private static AVLTree testRebalance(boolean showTree) {
 		AVLTree tree = new AVLTree();
 		String result = failed;
 		testName = "Rebalance() test 1: ";
-		boolean showTree = true;
 
 		// Create Tree: 1 root, 10 left nodes, 5 right nodes
 		// root node (val = 11)
@@ -189,14 +200,14 @@ public class Test {
 
 	/**
 	 * Test AVL node insertion
+	 * @param boolean showTree, a boolean to indicate whether to print the tree after running tests 
 	 * 
 	 * @return AVLTree, the AVL tree at the end of the test
 	 */
-	private static AVLTree testRemoval() {
+	private static AVLTree testRemoval(boolean showTree) {
 		AVLTree tree = new AVLTree();
 		String result = failed;
 		testName = "Rebalance() test 1: ";
-		boolean showTree = true;
 
 		// Create Tree: 1 root, 10 left nodes, 5 right nodes
 		// root node (val = 11)

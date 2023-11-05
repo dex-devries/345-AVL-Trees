@@ -44,7 +44,7 @@ public class Test {
 		}
 		
 		// These AVL tree nodes should go on the left of root
-		for (int i = 1; i < 10; i++) {
+		for (int i = 1; i <= 10; i++) {
 			tree.insert(i);
 			numNodes++;
 			if (tree.size() != numNodes) {
@@ -53,7 +53,7 @@ public class Test {
 			}
 		}
 		// These AVL tree nodes should go on the right of root
-		for (int i = 16; i < 20; i++) {
+		for (int i = 16; i <= 20; i++) {
 			tree.insert(i);
 			numNodes++;
 			if (tree.size() != numNodes) {

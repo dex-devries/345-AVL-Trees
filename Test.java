@@ -25,6 +25,9 @@ public class Test {
 
 		// Insert test 1
 		testInsertion();
+
+		// isBalanced test 1
+		testIsBalanced();
 		
 		// TODO: Gurvir - Add call to Rebalance Test here
 		// testRebalance()
@@ -42,7 +45,8 @@ public class Test {
 		AVLTree tree = new AVLTree();
 		String result = failed;
 		int numNodes = 0;
-		testName = "Insert() test 1: ";
+		System.out.println("*Begin insert() test 1*");
+		testName = "insert() test 1: ";
 		boolean showTree = true;
 
 		// Test insertion: 1 root, 10 left nodes, 5 right nodes
@@ -74,10 +78,64 @@ public class Test {
 		}
 
 		if (showTree) {
+			System.out.println("Printing tree...");
 			System.out.println(tree);
 		}
-		result = !tree.isEmpty() ? "PASSED" : "FAILED";
+		result = !tree.isEmpty() ? passed : failed;
 		System.out.println(testName + result);
+		return tree;
+	}
+
+	/**
+	 * Test isBalanced method
+	 * 
+	 * @return AVLTree, the AVL tree at the end of the test
+	 * 
+	 */
+	private static AVLTree testIsBalanced() {
+		AVLTree tree = new AVLTree();
+		String result;
+		System.out.println("*Begin isBalanced() test 1*");
+		testName = "isBalanced() test 1: ";
+		boolean showTree = true;
+
+		// isbalanced test 1
+		// this creates a tree with four levels
+		// due to the order of the inserted elements, at no point should the tree be unbalanced
+
+		int[] balancedInserts = {100,50,150,25,75,125,175,20,30,60,85,110,130,160,200,10,23,28,40,55,70,80,92,105,120,128,140,155,168,190,220};
+		boolean[] isBalanced = new boolean[31]; // store result of isBalanced after each insert
+		
+		System.out.print("Inserting");
+		int i = 0;
+		// insert each elements from inserts array and use method isBalanced on tree
+		// store boolean result in correct index of isBalanced
+		while (i < balancedInserts.length) { // length is 31
+			System.out.print("->" + balancedInserts[i]);
+			tree.insert(balancedInserts[i]);
+			isBalanced[i] = tree.isBalanced(tree.root());
+			i++;
+		}
+		System.out.println();
+
+		result = passed;
+		i = 0;
+		// iterate through isBalanced and if false is encountered, test failed
+		// print helpful error message
+		while (i < isBalanced.length) { // length is 31
+			if (!isBalanced[i]) { // isBalanced[i] == false
+				result = failed;
+				System.out.println("isBalanced() failed after inserting: " + balancedInserts[i]);
+			}
+			i++;
+		}
+
+		if (showTree) {
+			System.out.println("Printing tree...");
+			System.out.println(tree);
+		}
+		System.out.println(testName + result);
+
 		return tree;
 	}
 

@@ -86,6 +86,7 @@ public class AVLTree {
 			root = new Node(val);
 			nodeCount = 1;
 			this.height = 0;
+			return;
 		} else {
 			insertHelper(root, val, 1);
 		}

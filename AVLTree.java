@@ -30,10 +30,6 @@ public class AVLTree {
 	public Node root; // the root of the tree
 	private int height; // the height of the tree
 
-	private final int childrenTypeAll = 0; // # of child nodes
-	private final int childrenTypeLeft = 1; // # of left children of a node
-	private final int childrenTypeRight = 2; // # of right children of a node
-
 	// constructor - initialize fields
 	public AVLTree() {
 		this.nodeCount = 0;
@@ -77,23 +73,14 @@ public class AVLTree {
 		return root;
 	}
 
-	private int numChildren(Node node, int typeOfChildren) {
-		int count = 0;
-
-		if (typeOfChildren == childrenTypeLeft) {
-			if (node.left == null)
-				return count;
-		}
-		if (typeOfChildren == childrenTypeRight) {
-			if (node.right == null)
-				return count;
-		}
+	private int numChildren(Node node) {
+		int count = 1;
 
 		if (node.left != null) {
-			count += numChildren(node.left, typeOfChildren);
+			count += numChildren(node.left);
 		}
 		if (node.right != null) {
-			count += numChildren(node.right, typeOfChildren);
+			count += numChildren(node.right);
 		}
 		return count;
 	}
@@ -267,19 +254,13 @@ public class AVLTree {
 		if (tmp == null)
 			return null;
 
-		// add spaces based on node height
-		int spaces = (tmp.height * 3);
-		while (spaces-- != 0) {
-			System.out.print("");
-		}
-
 		int h = tmp.height;
 		while (h-- > 1)
 			System.out.print("-");
 		System.out.print("(" + tmp.val + " ,h=" + tmp.height);
-		System.out.print(", #lc=" + numChildren(tmp, childrenTypeLeft));
-		System.out.print(", #rc=" + numChildren(tmp, childrenTypeRight) + ")\n|-");
-
+		System.out.print(", #lc=" + (tmp.left != null ? numChildren(tmp.left) : 0));
+		System.out.print(", #rc=" + (tmp.right != null ? numChildren(tmp.right) : 0));
+		System.out.print(")\n|-");
 
 		// display left subtree
 		if (tmp.left != null) {

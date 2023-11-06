@@ -177,52 +177,73 @@ public class AVLTree {
 			return root;
 		}
 
-		if (root.left == null && root.right == null) // if tree has one node
+		if (val < root.val) {
+			root.left = remove(root.left, val);
+		} else if (val > root.val) {
+			root.right = remove(root.right, val);
+		} else // found node, delete
 		{
-			root = null;
-		}
-
-		else // if tree has more than one node
-		{
-			if (val < root.val) {
-				root.left = remove(root.left, val);
-			} else if (val > root.val) {
-				root.right = remove(root.right, val);
-			} else // found node, delete
-			{
-				// no children
-				if (root.left == null && root.right == null) {
-					root = null;
-				}
-
+			nodeCount--;
+			
+			// no children
+			if (root.left == null && root.right == null) {
+				root = null;
+			}
+			
+			//one child
+			else if (root.left == null && root.right!=null) {
+				root = root.right;
+				
+			}else if (root.right==null && root.left!=null) {
+				root = root.left;
+			}
 				// two children; replacement will be its right node
-				else if (root.left != null && root.right != null) {
-					Node replacement = root.right;
-					root.val = replacement.val;
+			else if (root.left != null && root.right != null) {
+				Node replacement = root.right;
+				root.val = replacement.val;
 
 					// remove the replacements old position Node
-					root.right = remove(root.right, replacement.val);
-
-				}
-				// node has one child
-				else {
-					if (root.left == null) {
-						root = root.right;
-					} else {
-						root = root.left;
-					}
-				}
+				root.right = remove(root.right, replacement.val);
 			}
+			
+		
 		}
-		root.height = 1 + Math.max(root.left.height, root.right.height);
-
-		if (isBalanced(root()) == false) {
-			// balance()
+		updateHeights(root());
+		//if (isBalanced(root()) == false) {
+		// balance()
 			// call the balance function to balance the tree
-		}
 
+	
 		return root;
 	}
+	
+	/**
+	 * Updates each height after a Node removal to reflect the data
+	 * of the updated tree.
+	 * @param root: root of tree
+	 */
+	public void updateHeights(Node root)
+	{
+		if (root!=null) {
+			updateHeights(root.left);
+			updateHeights(root.right);
+
+			int leftHeight;
+			if (root.left==null){
+				leftHeight = 0;}
+			else {
+				leftHeight = root.left.height;
+			}
+
+			int rightHeight;
+			if (root.right==null){
+				rightHeight = 0;}
+			else {
+				rightHeight = root.right.height;
+			}
+			root.height = 1+Math.max(leftHeight, rightHeight);}
+	}
+	
 
 	/**
 	 * String representation of the AVL tree

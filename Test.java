@@ -29,8 +29,7 @@ public class Test {
 		// TODO: Gurvir - Add call to Rebalance Test here
 		// testRebalance()
 		
-		// TODO: Kayla - Add Deletion Test here (delete 1 node)
-		// testRemoval();
+		testRemoval();
 	}
 
 	/**
@@ -137,7 +136,7 @@ public class Test {
 	private static AVLTree testRemoval() {
 		AVLTree tree = new AVLTree();
 		String result = failed;
-		testName = "Rebalance() test 1: ";
+		testName = "Remove() test 1: ";
 		boolean showTree = true;
 
 		// Create Tree: 1 root, 10 left nodes, 5 right nodes
@@ -159,6 +158,7 @@ public class Test {
 		}
 		
 		// TODO: Kayla - Add Deletion Test here (delete 1 node)
+		tree.remove(tree.root, 19);
 
 		// Tree after rebalance
 		if (showTree) {
@@ -170,6 +170,9 @@ public class Test {
 		if (sizePreRebalance != (sizePostRebalance + 1)) {
 			// size of tree doesn't match so test failed
 			System.out.println(testName + result);
+			System.out.println(sizePreRebalance);
+			System.out.println(sizePostRebalance+1);
+			
 			return null;
 		}
 

@@ -73,18 +73,6 @@ public class AVLTree {
 		return root;
 	}
 
-	private int numChildren(Node node) {
-		int count = 1;
-
-		if (node.left != null) {
-			count += numChildren(node.left);
-		}
-		if (node.right != null) {
-			count += numChildren(node.right);
-		}
-		return count;
-	}
-
 	/**
 	 * Insert a new Node into the AVLTree with value val Call recursive helper
 	 * function insertHelper with (root, val) Note: pass root node to helper
@@ -141,6 +129,32 @@ public class AVLTree {
 		}
 		return root;
 	}
+	
+	/**
+	 * Find height of AVL tree node
+	 * 
+	 * @param node
+	 * @return
+	 */
+	public int findHeight(Node node){  
+		if(node == null) {  
+            return 0;  
+        }  
+        else {  
+            int leftHeight = 0, rightHeight = 0;  
+  
+            if(node.left != null)  
+                leftHeight = findHeight(node.left);  
+  
+            if(node.right != null)  
+                rightHeight = findHeight(node.right);  
+  
+            //Compare height of left subtree and right subtree  
+            int max = (leftHeight > rightHeight) ? leftHeight : rightHeight;  
+  
+            return (max + 1);  
+        }  
+     }  
 
 	/**
 	 * Checks whether the AVL Tree is balanced or not
@@ -152,8 +166,8 @@ public class AVLTree {
 		if (root == null) {
 			return true;
 		} else {
-			int left_treeHeight = root.left.height;
-			int right_treeHeight = root.right.height;
+			int left_treeHeight = findHeight(root.left);
+			int right_treeHeight = findHeight(root.right);
 
 			if (Math.abs(left_treeHeight - right_treeHeight) <= 1 && isBalanced(root.left) && isBalanced(root.right)) {
 				return true; // is balanced
@@ -209,9 +223,10 @@ public class AVLTree {
 		
 		}
 		updateHeights(root());
-		//if (isBalanced(root()) == false) {
-		// balance()
+		if (isBalanced(root()) == false) {
+			// balance()
 			// call the balance function to balance the tree
+		}
 
 	
 		return root;
@@ -278,9 +293,9 @@ public class AVLTree {
 		int h = tmp.height;
 		while (h-- > 1)
 			System.out.print("-");
-		System.out.print("(" + tmp.val + " ,h=" + tmp.height);
-		System.out.print(", #lc=" + (tmp.left != null ? numChildren(tmp.left) : 0));
-		System.out.print(", #rc=" + (tmp.right != null ? numChildren(tmp.right) : 0));
+		System.out.print("(" + tmp.val + " ,h=" + findHeight(tmp));
+		System.out.print(", lh=" + (tmp.left != null ? findHeight(tmp.left) : 0));
+		System.out.print(", rh=" + (tmp.right != null ? findHeight(tmp.right) : 0));
 		System.out.print(")\n|-");
 
 		// display left subtree

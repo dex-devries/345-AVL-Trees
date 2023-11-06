@@ -230,7 +230,7 @@ public class Test {
 		}
 		
 		// TODO: Kayla - Add Deletion Test here (delete 1 node)
-		tree.remove(tree.root, 19);
+		tree.remove(tree.root, 11);
 
 		// Tree after rebalance
 		if (showTree) {
@@ -241,8 +241,9 @@ public class Test {
 		// Size after deletion is 1 less than before deletion
 		if (sizePreRebalance != (sizePostRebalance + 1)) {
 			// size of tree doesn't match so test failed
+			System.out.print(sizePreRebalance);
 			System.out.println(testName + result);
-			
+			System.out.println(sizePostRebalance + 1);
 			return null;
 		}
 

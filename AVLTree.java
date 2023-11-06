@@ -197,8 +197,6 @@ public class AVLTree {
 			root.right = remove(root.right, val);
 		} else // found node, delete
 		{
-			nodeCount--;
-			
 			// no children
 			if (root.left == null && root.right == null) {
 				root = null;
@@ -215,20 +213,18 @@ public class AVLTree {
 			else if (root.left != null && root.right != null) {
 				Node replacement = root.right;
 				root.val = replacement.val;
-
-					// remove the replacements old position Node
+				// remove the replacements old position Node
 				root.right = remove(root.right, replacement.val);
+				nodeCount++; // calls remove twice so adding to offset. May change to be simpler
 			}
-			
-		
+			nodeCount--;
 		}
+		
 		updateHeights(root());
 		if (isBalanced(root()) == false) {
 			// balance()
 			// call the balance function to balance the tree
 		}
-
-	
 		return root;
 	}
 	

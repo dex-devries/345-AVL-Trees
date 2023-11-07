@@ -229,8 +229,7 @@ public class Test {
 			System.out.println(tree);
 		}
 		
-		// TODO: Kayla - Add Deletion Test here (delete 1 node)
-		tree.remove(tree.root, 11);
+		tree.remove(tree.root, 17);
 
 		// Tree after rebalance
 		if (showTree) {

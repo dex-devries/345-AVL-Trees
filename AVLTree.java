@@ -220,39 +220,11 @@ public class AVLTree {
 			nodeCount--;
 		}
 		
-		updateHeights(root());
 		if (isBalanced(root()) == false) {
 			// balance()
 			// call the balance function to balance the tree
 		}
 		return root;
-	}
-	
-	/**
-	 * Updates each height after a Node removal to reflect the data
-	 * of the updated tree.
-	 * @param root: root of tree
-	 */
-	public void updateHeights(Node root)
-	{
-		if (root!=null) {
-			updateHeights(root.left);
-			updateHeights(root.right);
-
-			int leftHeight;
-			if (root.left==null){
-				leftHeight = 0;}
-			else {
-				leftHeight = root.left.height;
-			}
-
-			int rightHeight;
-			if (root.right==null){
-				rightHeight = 0;}
-			else {
-				rightHeight = root.right.height;
-			}
-			root.height = 1+Math.max(leftHeight, rightHeight);}
 	}
 	
 
@@ -302,6 +274,7 @@ public class AVLTree {
 		// display right subtree
 		if (tmp.right != null)
 			str += toStringHelper(tmp.right, str);
+		
 
 		return str;
 	}

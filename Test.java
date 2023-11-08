@@ -40,8 +40,8 @@ public class Test {
 		// isBalanced test 1
 		testIsBalanced(showTree);
 		
-		// TODO: Gurvir - Add call to Rebalance Test here
-		// testRebalance()
+		// Call to Rebalance Test
+	    testRebalance(showTree);
 		
 		testRemoval(showTree);
 	}
@@ -178,7 +178,10 @@ public class Test {
 			System.out.println(tree);
 		}
 		
-		// TODO: Gurvir - Add Rebalance Test here
+		 // Perform a manual check for balance at the root, if unbalanced, rebalance
+        if (!tree.isBalanced(tree.root())) {
+            tree.rebalance(tree.root());
+        }
 
 		// Tree after rebalance
 		if (showTree) {

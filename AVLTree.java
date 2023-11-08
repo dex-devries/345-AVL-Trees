@@ -8,7 +8,6 @@
  * Velskii, and Landis, AVL trees have the property of dynamic self-balancing 
  * in addition to all the other properties exhibited by binary search trees. 
  */
-package AVLTree;
 
 public class AVLTree {
 	// class Node - a node in a BST

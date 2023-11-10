@@ -158,6 +158,7 @@ public class Test {
 	private static AVLTree testRebalance(boolean showTree) {
 		AVLTree tree = new AVLTree();
 		String result = failed;
+		System.out.println("*Begin Rebalance() test 1*");
 		testName = "Rebalance() test 1: ";
 
 		// Create Tree: 1 root, 10 left nodes, 5 right nodes
@@ -185,6 +186,7 @@ public class Test {
 
 		// Tree after rebalance
 		if (showTree) {
+			System.out.println("Printing tree...");
 			System.out.println(tree);
 		}
 		int sizePostRebalance = tree.size();
@@ -209,10 +211,8 @@ public class Test {
 	private static AVLTree testRemoval(boolean showTree) {
 		AVLTree tree = new AVLTree();
 		String result = failed;
-
+		System.out.println("*Begin Remove() test 1*");
 		testName = "Remove() test 1: ";
-		showTree = true;
-
 
 		// Create Tree: 1 root, 10 left nodes, 5 right nodes
 		// root node (val = 11)
@@ -228,7 +228,9 @@ public class Test {
 		
 		int sizePreRebalance = tree.size();
 		// Tree before rebalance
+
 		if (showTree) {
+			System.out.println("Printing tree before remove:");
 			System.out.println(tree);
 		}
 		
@@ -236,6 +238,7 @@ public class Test {
 
 		// Tree after rebalance
 		if (showTree) {
+			System.out.println("Printing tree after remove:");
 			System.out.println(tree);
 		}
 		int sizePostRebalance = tree.size();

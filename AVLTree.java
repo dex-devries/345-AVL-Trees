@@ -29,6 +29,8 @@ public class AVLTree {
 	private int nodeCount; // number of nodes in AVL tree
 	public Node root; // the root of the tree
 	private int height; // the height of the tree
+	private boolean debug = false;
+	private int depth = 0;
 
 	// constructor - initialize fields
 	public AVLTree() {
@@ -82,10 +84,9 @@ public class AVLTree {
 
 	// Modify the insert method like so:
 	public void insert(int val) {
-	    root = insertHelper(root, val); // Ensure the root is updated with the new tree structure
-	    this.height = root.height; // Update the tree height after insertion
+		root = insertHelper(root, val); // Ensure the root is updated with the new tree structure
+		this.height = root.height; // Update the tree height after insertion
 	}
-
 
 	/**
 	 * Recursive helper function for insert Creates new Node object with value val
@@ -99,28 +100,29 @@ public class AVLTree {
 	 */
 
 	public Node insertHelper(Node node, int val) {
-	    if (node == null) {
-	        nodeCount++;
-	        return (new Node(val));
-	    }
+		if (node == null) {
+			nodeCount++;
+			return (new Node(val));
+		}
 
-	    if (val < node.val) {
-	        node.left = insertHelper(node.left, val);
-	    } else if (val > node.val) {
-	        node.right = insertHelper(node.right, val);
-	    } else {
-	        // Duplicate keys not allowed
-	        return node;
-	    }
+		if (val < node.val) {
+			node.left = insertHelper(node.left, val);
+		} else if (val > node.val) {
+			node.right = insertHelper(node.right, val);
+		} else {
+			// Duplicate keys not allowed
+			return node;
+		}
 
-	    // Update height of this ancestor node
-	    node.height = 1 + Math.max(findHeight(node.left), findHeight(node.right));
+		// Update height of this ancestor node
+		node.height = 1 + Math.max(findHeight(node.left), findHeight(node.right));
+		if (debug)
+			System.out.println("Node height updated for ancestor node h=" + node.height);
 
-	    // Rebalance the node if needed
-	    return rebalance(node);
+		// Rebalance the node if needed
+		return rebalance(node);
 	}
 
-	
 	/**
 	 * Find height of AVL tree node
 	 * 
@@ -128,14 +130,14 @@ public class AVLTree {
 	 * @return
 	 */
 	public int findHeight(Node node) {
-	    // If the node is null, we return -1, which is useful for balance factor calculations.
-	    if (node == null) {
-	        return -1;
-	    }
-	    // Since each node maintains its height, we just return it.
-	    return node.height;
+		// If the node is null, we return -1, which is useful for balance factor
+		// calculations.
+		if (node == null) {
+			return -1;
+		}
+		// Since each node maintains its height, we just return it.
+		return node.height;
 	}
- 
 
 	/**
 	 * Checks whether the AVL Tree is balanced or not
@@ -167,57 +169,56 @@ public class AVLTree {
 	 */
 
 	public Node remove(Node root, int val) {
-	    if (root == null) {
-	        return root;
-	    }
+		if (root == null) {
+			return root;
+		}
 
-	    if (val < root.val) {
-	        root.left = remove(root.left, val);
-	    } else if (val > root.val) {
-	        root.right = remove(root.right, val);
-	    } else {
-	        // Node with only one child or no child
-	        if ((root.left == null) || (root.right == null)) {
-	            Node temp = null;
-	            if (temp == root.left) {
-	                temp = root.right;
-	            } else {
-	                temp = root.left;
-	            }
+		if (val < root.val) {
+			root.left = remove(root.left, val);
+		} else if (val > root.val) {
+			root.right = remove(root.right, val);
+		} else {
+			// Node with only one child or no child
+			if ((root.left == null) || (root.right == null)) {
+				Node temp = null;
+				if (temp == root.left) {
+					temp = root.right;
+				} else {
+					temp = root.left;
+				}
 
-	            // No child case
-	            if (temp == null) {
-	                temp = root;
-	                root = null;
-	            } else { // One child case
-	                root = temp; // Copy the contents of the non-empty child
-	            }
-	            nodeCount--;
-	        } else {
-	            // Node with two children: Get the inorder successor (smallest in the right subtree)
-	            Node temp = findMin(root.right);
+				// No child case
+				if (temp == null) {
+					temp = root;
+					root = null;
+				} else { // One child case
+					root = temp; // Copy the contents of the non-empty child
+				}
+				nodeCount--;
+			} else {
+				// Node with two children: Get the inorder successor (smallest in the right
+				// subtree)
+				Node temp = findMin(root.right);
 
-	            // Copy the inorder successor's data to this node
-	            root.val = temp.val;
+				// Copy the inorder successor's data to this node
+				root.val = temp.val;
 
-	            // Delete the inorder successor
-	            root.right = remove(root.right, temp.val);
-	        }
-	    }
+				// Delete the inorder successor
+				root.right = remove(root.right, temp.val);
+			}
+		}
 
-	    // If the tree had only one node then return
-	    if (root == null) {
-	        return root;
-	    }
+		// If the tree had only one node then return
+		if (root == null) {
+			return root;
+		}
 
-	    // Update height of the current node
-	    root.height = Math.max(findHeight(root.left), findHeight(root.right)) + 1;
+		// Update height of the current node
+		root.height = Math.max(findHeight(root.left), findHeight(root.right)) + 1;
 
-	    // Rebalance the tree
-	    return rebalance(root);
+		// Rebalance the tree
+		return rebalance(root);
 	}
-
-	
 
 	/**
 	 * String representation of the AVL tree
@@ -249,109 +250,141 @@ public class AVLTree {
 		if (tmp == null)
 			return null;
 
-		int h = tmp.height;
+		int h = depth;
 		while (h-- > 1)
 			System.out.print("-");
 		System.out.print("(" + tmp.val + " ,h=" + findHeight(tmp));
 		System.out.print(", lh=" + (tmp.left != null ? findHeight(tmp.left) : 0));
 		System.out.print(", rh=" + (tmp.right != null ? findHeight(tmp.right) : 0));
-		System.out.print(")\n|-");
+		System.out.print(")\n");
+		System.out.print("|-");
 
-		// display left subtree
+		
+			// display left subtree
 		if (tmp.left != null) {
+			depth++;
 			str += toStringHelper(tmp.left, str);
+			depth--;
 		}
 
 		// display right subtree
-		if (tmp.right != null)
+		if (tmp.right != null) {
+			depth++;
 			str += toStringHelper(tmp.right, str);
-		
+			depth--;
+		}
 
 		return str;
 	}
-	
+
 	// Utility method to perform a right rotation
 	private Node rotateRight(Node y) {
-	    Node x = y.left;
-	    Node T2 = x.right;
+		if (debug)
+			System.out.println("rotateRight now...");
 
-	    // Perform rotation
-	    x.right = y;
-	    y.left = T2;
+		Node x = y.left;
+		Node T2 = x.right;
 
-	    // Update heights
-	    y.height = Math.max(findHeight(y.left), findHeight(y.right)) + 1;
-	    x.height = Math.max(findHeight(x.left), findHeight(x.right)) + 1;
+		// Perform rotation
+		x.right = y;
+		y.left = T2;
 
-	    // Return new root
-	    return x;
+		// Update heights
+		y.height = Math.max(findHeight(y.left), findHeight(y.right)) + 1;
+		x.height = Math.max(findHeight(x.left), findHeight(x.right)) + 1;
+
+		// Return new root
+		return x;
 	}
 
 	// Utility method to perform a left rotation
 	private Node rotateLeft(Node x) {
-	    Node y = x.right;
-	    Node T2 = y.left;
+		if (debug)
+			System.out.println("rotateLeft now...");
 
-	    // Perform rotation
-	    y.left = x;
-	    x.right = T2;
+		Node y = x.right;
+		Node T2 = y.left;
 
-	    // Update heights
-	    x.height = Math.max(findHeight(x.left), findHeight(x.right)) + 1;
-	    y.height = Math.max(findHeight(y.left), findHeight(y.right)) + 1;
+		// Perform rotation
+		y.left = x;
+		x.right = T2;
 
-	    // Return new root
-	    return y;
+		// Update heights
+		x.height = Math.max(findHeight(x.left), findHeight(x.right)) + 1;
+		y.height = Math.max(findHeight(y.left), findHeight(y.right)) + 1;
+
+		// Return new root
+		return y;
 	}
 
 	// Get balance factor of a node
 	private int getBalance(Node N) {
-	    if (N == null)
-	        return 0;
-	    return findHeight(N.left) - findHeight(N.right);
+		if (N == null)
+			return 0;
+		return findHeight(N.left) - findHeight(N.right);
 	}
 
 	// Rebalance the tree at node and return the new root
 	Node rebalance(Node z) {
-	    // Update height of this ancestor node
-	    z.height = 1 + Math.max(findHeight(z.left), findHeight(z.right));
+		if (debug) {
+			System.out.println("Tree before rebalancing occured...");
+			System.out.println(this.toString());
+			System.out.println("Rebalancing now...");
+			System.out.println("Node z in rebalance() call has value:" + z.val);
+		}
+		// Update height of this ancestor node
+		z.height = 1 + Math.max(findHeight(z.left), findHeight(z.right));
 
-	    // Get the balance factor
-	    int balance = getBalance(z);
+		// Get the balance factor
+		int balance = getBalance(z);
 
-	    // If this node becomes unbalanced, then there are 4 cases
+		// If this node becomes unbalanced, then there are 4 cases
 
-	    // Left Left Case
-	    if (balance > 1 && getBalance(z.left) >= 0)
-	        return rotateRight(z);
+		// Left Left Case
+		if (balance > 1 && getBalance(z.left) >= 0) {
+			if (debug) {
+				System.out.println("Rebalancing Left Left Case");
+			}
 
-	    // Left Right Case
-	    if (balance > 1 && getBalance(z.left) < 0) {
-	        z.left = rotateLeft(z.left);
-	        return rotateRight(z);
-	    }
+			return rotateRight(z);
+		}
 
-	    // Right Right Case
-	    if (balance < -1 && getBalance(z.right) <= 0)
-	        return rotateLeft(z);
+		// Left Right Case
+		if (balance > 1 && getBalance(z.left) < 0) {
+			if (debug) {
+				System.out.println("Rebalancing Left Right Case");
+			}
+			z.left = rotateLeft(z.left);
+			return rotateRight(z);
+		}
 
-	    // Right Left Case
-	    if (balance < -1 && getBalance(z.right) > 0) {
-	        z.right = rotateRight(z.right);
-	        return rotateLeft(z);
-	    }
+		// Right Right Case
+		if (balance < -1 && getBalance(z.right) <= 0) {
+			if (debug) {
+				System.out.println("Rebalancing Right Right Case");
+			}
+			return rotateLeft(z);
+		}
 
-	    // Return the (unchanged) node pointer
-	    return z;
+		// Right Left Case
+		if (balance < -1 && getBalance(z.right) > 0) {
+			if (debug) {
+				System.out.println("Rebalancing Right Left Case");
+			}
+			z.right = rotateRight(z.right);
+			return rotateLeft(z);
+		}
+
+		// Return the (unchanged) node pointer
+		return z;
 	}
-	
+
 	private Node findMin(Node node) {
-	    Node current = node;
-	    while (current.left != null) {
-	        current = current.left;
-	    }
-	    return current;
+		Node current = node;
+		while (current.left != null) {
+			current = current.left;
+		}
+		return current;
 	}
-
 
 }

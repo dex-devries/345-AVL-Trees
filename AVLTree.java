@@ -184,18 +184,33 @@ public class AVLTree {
 				System.out.println("Removing " + val + "(left recursive) from AVL tree");
 
 			root.left = remove(root.left, val);
+			
+			if (debugRemove) {
+				System.out.println("Just after root.left initialized after return from remove() ");
+				System.out.println(this);
+			}
 		} else if (val > root.val) {
 			if (debugRemove)
 				System.out.println("Removing " + val + "(right recursive) from AVL tree");
 
 			root.right = remove(root.right, val);
+			if (debugRemove) {
+				System.out.println("Just after root.right initialized after return from remove() ");
+				System.out.println(this);
+			}
 		} else {
 			// Node with only one child or no child
 			if ((root.left == null) || (root.right == null)) {
 				Node temp = null;
 				if (temp == root.left) {
+					if (debugRemove)
+						System.out.println("setting temp to root.right for node " + root.val);
+					
 					temp = root.right;
 				} else {
+					if (debugRemove)
+						System.out.println("setting temp to root.left for node " + root.val);
+					
 					temp = root.left;
 				}
 
@@ -220,6 +235,10 @@ public class AVLTree {
 				}
 				nodeCount--;
 			} else {
+				
+				if (debugRemove)
+					System.out.println("processing node with 2 children for node " + root.val);
+				
 				// Node with two children: Get the inorder successor (smallest in the right
 				// subtree)
 				Node temp = findMin(root.right);
@@ -234,19 +253,34 @@ public class AVLTree {
 
 		// If the tree had only one node then return
 		if (root == null) {
-			if (debugRemove)
+			if (debugRemove) {
+				System.out.println("Just before returning from remove");
+				System.out.println(this);
 				System.out.println("Done with remove");
+			}
 			return root;
 		}
 		
 		if (debugRemove)
-			System.out.println("Done with remove, updating height of node " + root.val);
+			System.out.print("Done with remove, updating height of node " + root.val);
 
 		// Update height of the current node
 		root.height = Math.max(findHeight(root.left), findHeight(root.right)) + 1;
 
+		if (debugRemove)
+			System.out.println(" to " + root.height);
+		
 		// Rebalance the tree
-		return rebalance(root);
+		if (debugRemove) {
+			System.out.println("Just before rebalancing before exiting remove");
+			System.out.println(this);
+		}
+		Node retval = rebalance(root);
+		if (debugRemove) {
+			System.out.println("Just after rebalancing before exiting remove");
+			System.out.println(this);
+		}
+		return retval;
 	}
 
 	/**

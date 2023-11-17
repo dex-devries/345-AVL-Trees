@@ -277,12 +277,15 @@ public class AVLTree {
 			System.out.println(this);
 			if (root.val == 2 && size() == 4)
 				System.out.println("******* Bug shows up after here ******* val is " + root.val);
+			System.out.println("root (before rebalance): " + this.root);
 
 		}
 		Node retval = rebalance(root);
 		if (debugRemove) {
 			System.out.println("Just after rebalancing before exiting remove");
+			System.out.println("root (after rebalance): " + this.root);
 			System.out.println(this);
+
 		}
 		return retval;
 	}
@@ -345,8 +348,8 @@ public class AVLTree {
 
 	// Utility method to perform a right rotation
 	private Node rotateRight(Node y) {
-		if (debug)
-			System.out.println("rotateRight now...");
+		if (debugRebalance)
+			System.out.println("rotateRight now... called on node " + y.val);
 
 		Node x = y.left;
 		Node T2 = x.right;
@@ -365,8 +368,8 @@ public class AVLTree {
 
 	// Utility method to perform a left rotation
 	private Node rotateLeft(Node x) {
-		if (debug)
-			System.out.println("rotateLeft now...");
+		if (debugRebalance)
+			System.out.println("rotateLeft now... called on node " + x.val);
 
 		Node y = x.right;
 		Node T2 = y.left;
@@ -403,6 +406,9 @@ public class AVLTree {
 
 		// Get the balance factor
 		int balance = getBalance(z);
+		if (debugRebalance) {
+			System.out.println("***** balance = " + balance + " *****");
+		}
 
 		// If this node becomes unbalanced, then there are 4 cases
 

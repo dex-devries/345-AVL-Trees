@@ -38,6 +38,7 @@ public class RemoveError {
                                         // -(2)
                                         // --(3)
                                         // -(5)
+        System.out.println("\nFinal state of tree");
         System.out.println(tree);
         System.out.println("root: " + tree.root().val);
         System.out.println("isBalanced: " + tree.isBalanced(tree.root()));

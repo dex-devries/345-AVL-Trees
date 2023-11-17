@@ -32,6 +32,7 @@ public class AVLTree {
 	private boolean debug = false;
 	private int depth = 0;
 	private boolean debugRemove = true;
+	private boolean debugRebalance = true;
 
 	// constructor - initialize fields
 	public AVLTree() {
@@ -184,7 +185,7 @@ public class AVLTree {
 				System.out.println("Removing " + val + "(left recursive) from AVL tree");
 
 			root.left = remove(root.left, val);
-			
+
 			if (debugRemove) {
 				System.out.println("Just after root.left initialized after return from remove() ");
 				System.out.println(this);
@@ -205,12 +206,12 @@ public class AVLTree {
 				if (temp == root.left) {
 					if (debugRemove)
 						System.out.println("setting temp to root.right for node " + root.val);
-					
+
 					temp = root.right;
 				} else {
 					if (debugRemove)
 						System.out.println("setting temp to root.left for node " + root.val);
-					
+
 					temp = root.left;
 				}
 
@@ -235,10 +236,10 @@ public class AVLTree {
 				}
 				nodeCount--;
 			} else {
-				
+
 				if (debugRemove)
 					System.out.println("processing node with 2 children for node " + root.val);
-				
+
 				// Node with two children: Get the inorder successor (smallest in the right
 				// subtree)
 				Node temp = findMin(root.right);
@@ -260,7 +261,7 @@ public class AVLTree {
 			}
 			return root;
 		}
-		
+
 		if (debugRemove)
 			System.out.print("Done with remove, updating height of node " + root.val);
 
@@ -269,11 +270,14 @@ public class AVLTree {
 
 		if (debugRemove)
 			System.out.println(" to " + root.height);
-		
+
 		// Rebalance the tree
 		if (debugRemove) {
 			System.out.println("Just before rebalancing before exiting remove");
 			System.out.println(this);
+			if (root.val == 2 && size() == 4)
+				System.out.println("******* Bug shows up after here ******* val is " + root.val);
+
 		}
 		Node retval = rebalance(root);
 		if (debugRemove) {
@@ -388,7 +392,7 @@ public class AVLTree {
 
 	// Rebalance the tree at node and return the new root
 	Node rebalance(Node z) {
-		if (debug) {
+		if (debugRebalance) {
 			System.out.println("Tree before rebalancing occured...");
 			System.out.println(this.toString());
 			System.out.println("Rebalancing now...");
@@ -404,7 +408,7 @@ public class AVLTree {
 
 		// Left Left Case
 		if (balance > 1 && getBalance(z.left) >= 0) {
-			if (debug) {
+			if (debugRebalance) {
 				System.out.println("Rebalancing Left Left Case");
 			}
 
@@ -413,7 +417,7 @@ public class AVLTree {
 
 		// Left Right Case
 		if (balance > 1 && getBalance(z.left) < 0) {
-			if (debug) {
+			if (debugRebalance) {
 				System.out.println("Rebalancing Left Right Case");
 			}
 			z.left = rotateLeft(z.left);
@@ -422,7 +426,7 @@ public class AVLTree {
 
 		// Right Right Case
 		if (balance < -1 && getBalance(z.right) <= 0) {
-			if (debug) {
+			if (debugRebalance) {
 				System.out.println("Rebalancing Right Right Case");
 			}
 			return rotateLeft(z);
@@ -430,7 +434,7 @@ public class AVLTree {
 
 		// Right Left Case
 		if (balance < -1 && getBalance(z.right) > 0) {
-			if (debug) {
+			if (debugRebalance) {
 				System.out.println("Rebalancing Right Left Case");
 			}
 			z.right = rotateRight(z.right);

@@ -31,6 +31,7 @@ public class AVLTree {
 	private int height; // the height of the tree
 	private boolean debug = false;
 	private int depth = 0;
+	private boolean debugRemove = true;
 
 	// constructor - initialize fields
 	public AVLTree() {
@@ -169,13 +170,24 @@ public class AVLTree {
 	 */
 
 	public Node remove(Node root, int val) {
+
 		if (root == null) {
+			if (debugRemove)
+				System.out.println("Removing " + val + " from AVL tree: exiting due to root is null");
 			return root;
 		}
+		if (debugRemove)
+			System.out.println("Removing " + val + " from AVL tree: at node " + root.val);
 
 		if (val < root.val) {
+			if (debugRemove)
+				System.out.println("Removing " + val + "(left recursive) from AVL tree");
+
 			root.left = remove(root.left, val);
 		} else if (val > root.val) {
+			if (debugRemove)
+				System.out.println("Removing " + val + "(right recursive) from AVL tree");
+
 			root.right = remove(root.right, val);
 		} else {
 			// Node with only one child or no child
@@ -189,9 +201,21 @@ public class AVLTree {
 
 				// No child case
 				if (temp == null) {
+					if (debugRemove)
+						System.out.println("processing no child case for node " + root.val);
 					temp = root;
+					if (debugRemove) {
+						System.out.println("Just before setting root to null");
+						System.out.println(this);
+					}
 					root = null;
+					if (debugRemove) {
+						System.out.println("Just after setting root to null");
+						System.out.println(this);
+					}
 				} else { // One child case
+					if (debugRemove)
+						System.out.println("processing one child case for node " + root.val);
 					root = temp; // Copy the contents of the non-empty child
 				}
 				nodeCount--;
@@ -210,8 +234,13 @@ public class AVLTree {
 
 		// If the tree had only one node then return
 		if (root == null) {
+			if (debugRemove)
+				System.out.println("Done with remove");
 			return root;
 		}
+		
+		if (debugRemove)
+			System.out.println("Done with remove, updating height of node " + root.val);
 
 		// Update height of the current node
 		root.height = Math.max(findHeight(root.left), findHeight(root.right)) + 1;
@@ -259,8 +288,7 @@ public class AVLTree {
 		System.out.print(")\n");
 		System.out.print("|-");
 
-		
-			// display left subtree
+		// display left subtree
 		if (tmp.left != null) {
 			depth++;
 			str += toStringHelper(tmp.left, str);

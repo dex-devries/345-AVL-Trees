@@ -32,7 +32,7 @@ public class RemoveError {
 
         System.out.println("Removing 1");
       
-        tree.remove(tree.root(), 1); // fails here - removing 1 should rebalance to root 4
+        tree.root = tree.remove(tree.root(), 1); // fails here - removing 1 should rebalance to root 4
                                         // tree should be in following state
                                         // (4) 
                                         // -(2)

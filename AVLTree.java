@@ -31,8 +31,8 @@ public class AVLTree {
 	private int height; // the height of the tree
 	private boolean debug = false;
 	private int depth = 0;
-	private boolean debugRemove = true;
-	private boolean debugRebalance = true;
+	private boolean debugRemove = false;
+	private boolean debugRebalance = false;
 
 	// constructor - initialize fields
 	public AVLTree() {
@@ -285,6 +285,7 @@ public class AVLTree {
 			System.out.println("Just after rebalancing before exiting remove");
 			System.out.println("root (after rebalance): " + this.root);
 			System.out.println(this);
+			System.out.println("retval is for node " + retval.val);
 
 		}
 		return retval;

@@ -38,17 +38,19 @@ public class Test {
 			}
 		}
 
-		// Insert test 1
+		// AVL tree node Insertion test 1
 		testInsertion(showTree);
 
-		// isBalanced test 1
+		// AVL tree isBalanced test 1
 		testIsBalanced(showTree);
 
 		// Call to Rebalance Test
 		testRebalance(showTree);
 
+		// AVL tree node removal test
 		testRemoval(showTree);
 
+		// AVL tree large node count insertion and removal test
 		testInsertionLarge(showTree);
 	}
 

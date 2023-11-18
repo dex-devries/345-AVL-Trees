@@ -10,6 +10,11 @@ public class Test {
 	private static final String passed = "PASSED", failed = "FAILED";
 	private static String testName = "AVL Tests";
 
+	/**
+	 * Main test method
+	 * 
+	 * @param args command line arguments (not used here)
+	 */
 	public static void main(String[] args) {
 
 		String result;
@@ -47,6 +52,11 @@ public class Test {
 		testInsertionLarge(showTree);
 	}
 
+	/**
+	 * Test insertion of large number of nodes
+	 * 
+	 * @param showTree, boolean shows tree when true
+	 */
 	private static void testInsertionLarge(boolean showTree) {
 		AVLTree tree = new AVLTree();
 		String result = failed;

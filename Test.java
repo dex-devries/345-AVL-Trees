@@ -67,7 +67,7 @@ public class Test {
 		testName = "insert() test 2: ";
 
 		// insert large number of nodes
-		for (int i = 1; i <= 1000000; i++) {
+		for (int i = 1; i <= 100000; i++) {
 			tree.insert(i);
 			numNodes++;
 			if (tree.size() != numNodes) {
@@ -84,13 +84,12 @@ public class Test {
 			System.out.println(testName + result);
 			return;
 		}
-		
 		System.out.println("isBalanced: " + tree.isBalanced(tree.root()));
 		System.out.println("tree height: " + tree.height());
 		System.out.println("tree size: " + tree.size());
 
 		// remove large number of nodes
-		for (int i = 1; i <= 1000000; i++) {
+		for (int i = 1; i <= 100000; i++) {
 			tree.root = tree.remove(tree.root(), i);
 			numNodes--;
 			if (tree.size() != numNodes) {

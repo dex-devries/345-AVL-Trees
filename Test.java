@@ -41,6 +41,9 @@ public class Test {
 		// AVL tree node Insertion test 1
 		testInsertion(showTree);
 
+		// AVL tree test get method
+		testGet(showTree);
+
 		// AVL tree isBalanced test 1
 		testIsBalanced(showTree);
 
@@ -158,6 +161,83 @@ public class Test {
 			System.out.println(tree);
 		}
 		result = !tree.isEmpty() ? passed : failed;
+		System.out.println(testName + result);
+		return tree;
+	}
+
+	/**
+	 * Test get method
+	 * 
+	 * @param  boolean showTree, a boolean to indicate whether to print the tree
+	 *        			after running tests
+	 * 
+	 * @return AVLTree, the AVL tree at the end of the test
+	 */
+	private static AVLTree testGet(boolean showTree) {
+		AVLTree tree = new AVLTree();
+		String result;
+		System.out.println("*Begin get() test 1*");
+		testName = "get() test 1: ";
+		boolean getSuccess = true;
+
+
+		// populate the tree with even numbers from 0 to 100
+		for (int i = 0; i<=200; i+=2) {tree.insert(i);}
+		
+		AVLTree.Node gotNode;
+
+		// test get on all even numbers, if ever null => failed
+		for (int i = 100; i>=2; i-=2) {
+			gotNode = tree.get(i);
+			if (gotNode == null) { //if getNode is null, that means the search failed
+				getSuccess = false;
+				System.out.println("here i=" + i);
+			}
+		}
+
+		// test get on all odd numbers (no odds in tree), if ever NOT null => failed
+		for (int i = 99; i>=1; i-=2) {
+			gotNode = tree.get(i);
+			if (gotNode != null) { //if getNode is null, that means the search failed
+				getSuccess = false;
+			}
+		}
+
+		// reset tree
+		tree = new AVLTree();
+		tree.insert(0);
+		tree.insert(1);
+
+		// Test get for value NOT in tree (gotNode == null)
+		gotNode = tree.get(-1); 
+		if (gotNode != null) {getSuccess = false;}
+
+		// Get 0 from tree and insert -1 as the left child node
+		gotNode = tree.get(0);
+		if (gotNode == null) {getSuccess = false;}
+		AVLTree.Node newNode = tree.new Node(-1);
+		gotNode.left = newNode;
+
+		// test get on -1   (gotNode == null => fail)
+		gotNode = tree.get(-1);
+		if (gotNode == null) {getSuccess = false;}
+
+		// add -2 as left child node of -1
+		newNode = tree.new Node(-2);
+		gotNode.left = newNode;
+
+		// test get on -2 (gotNode == null => fail)
+		gotNode = tree.get(-2);
+		if (gotNode == null) {getSuccess = false;}
+
+		if (showTree) {
+			// tree.rebalance(tree.root());
+			System.out.println("Printing tree...");
+			System.out.println(tree);
+		}
+
+		result = getSuccess ? passed : failed ;
+
 		System.out.println(testName + result);
 		return tree;
 	}

@@ -28,8 +28,7 @@ public class Test {
 		if (args.length == 1) {
 			if (args[0].equals("-showTree")) {
 				showTree = true;
-			}
-			else {
+			} else {
 				System.err.println("Invalid command line argument: " + args[0]);
 			}
 		}
@@ -39,16 +38,58 @@ public class Test {
 
 		// isBalanced test 1
 		testIsBalanced(showTree);
-		
+
 		// Call to Rebalance Test
-	    testRebalance(showTree);
-		
+		testRebalance(showTree);
+
 		testRemoval(showTree);
+
+		testInsertionLarge(showTree);
+	}
+
+	private static void testInsertionLarge(boolean showTree) {
+		AVLTree tree = new AVLTree();
+		String result = failed;
+		int numNodes = 0;
+		System.out.println("*Begin insert() test 2*");
+		testName = "insert() test 2: ";
+
+		// insert large number of nodes
+		for (int i = 1; i <= 1000000; i++) {
+			tree.insert(i);
+			numNodes++;
+			if (tree.size() != numNodes) {
+				System.out.println(testName + result);
+				return;
+			}
+		}
+		System.out.println("isBalanced: " + tree.isBalanced(tree.root()));
+		System.out.println("tree height: " + tree.height());
+		System.out.println("tree size: " + tree.size());
+
+		// remove large number of nodes
+		for (int i = 1; i <= 1000000; i++) {
+			tree.root = tree.remove(tree.root(), i);
+			numNodes--;
+			if (tree.size() != numNodes) {
+				System.out.println(testName + result);
+				return;
+			}
+		}
+
+		if (showTree) {
+			System.out.println("Printing tree...");
+			System.out.println(tree);
+		}
+		result = tree.isEmpty() ? passed : failed;
+		System.out.println(testName + result);
 	}
 
 	/**
 	 * Test AVL node insertion
-	 * @param boolean showTree, a boolean to indicate whether to print the tree after running tests 
+	 * 
+	 * @param boolean showTree, a boolean to indicate whether to print the tree
+	 *                after running tests
 	 * 
 	 * @return AVLTree, the AVL tree at the end of the test
 	 */
@@ -98,7 +139,9 @@ public class Test {
 
 	/**
 	 * Test isBalanced method
-	 * @param boolean showTree, a boolean to indicate whether to print the tree after running tests 
+	 * 
+	 * @param boolean showTree, a boolean to indicate whether to print the tree
+	 *                after running tests
 	 * 
 	 * @return AVLTree, the AVL tree at the end of the test
 	 * 
@@ -111,11 +154,13 @@ public class Test {
 
 		// isbalanced test 1
 		// this creates a tree with four levels
-		// due to the order of the inserted elements, at no point should the tree be unbalanced
+		// due to the order of the inserted elements, at no point should the tree be
+		// unbalanced
 
-		int[] balancedInserts = {100,50,150,25,75,125,175,20,30,60,85,110,130,160,200,10,23,28,40,55,70,80,92,105,120,128,140,155,168,190,220};
+		int[] balancedInserts = { 100, 50, 150, 25, 75, 125, 175, 20, 30, 60, 85, 110, 130, 160, 200, 10, 23, 28, 40,
+				55, 70, 80, 92, 105, 120, 128, 140, 155, 168, 190, 220 };
 		boolean[] isBalanced = new boolean[31]; // store result of isBalanced after each insert
-		
+
 		System.out.print("Inserting");
 		int i = 0;
 		// insert each elements from inserts array and use method isBalanced on tree
@@ -151,7 +196,9 @@ public class Test {
 
 	/**
 	 * Test AVL node rebalancing
-	 * @param boolean showTree, a boolean to indicate whether to print the tree after running tests 
+	 * 
+	 * @param boolean showTree, a boolean to indicate whether to print the tree
+	 *                after running tests
 	 * 
 	 * @return AVLTree, the AVL tree at the end of the test
 	 */
@@ -172,17 +219,17 @@ public class Test {
 		for (int i = 16; i <= 20; i++) {
 			tree.insert(i);
 		}
-		
+
 		int sizePreRebalance = tree.size();
 		// Tree before rebalance
 		if (showTree) {
 			System.out.println(tree);
 		}
-		
-		 // Perform a manual check for balance at the root, if unbalanced, rebalance
-        if (!tree.isBalanced(tree.root())) {
-            tree.rebalance(tree.root());
-        }
+
+		// Perform a manual check for balance at the root, if unbalanced, rebalance
+		if (!tree.isBalanced(tree.root())) {
+			tree.rebalance(tree.root());
+		}
 
 		// Tree after rebalance
 		if (showTree) {
@@ -204,7 +251,9 @@ public class Test {
 
 	/**
 	 * Test AVL node insertion
-	 * @param boolean showTree, a boolean to indicate whether to print the tree after running tests 
+	 * 
+	 * @param boolean showTree, a boolean to indicate whether to print the tree
+	 *                after running tests
 	 * 
 	 * @return AVLTree, the AVL tree at the end of the test
 	 */
@@ -225,7 +274,7 @@ public class Test {
 		for (int i = 16; i <= 20; i++) {
 			tree.insert(i);
 		}
-		
+
 		int sizePreRebalance = tree.size();
 		// Tree before rebalance
 
@@ -233,7 +282,7 @@ public class Test {
 			System.out.println("Printing tree before remove:");
 			System.out.println(tree);
 		}
-		
+
 		tree.remove(tree.root, 17);
 
 		// Tree after rebalance

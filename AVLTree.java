@@ -31,7 +31,9 @@ public class AVLTree {
 	private int height; // the height of the tree
 	private int depth = 0;
 
-	// constructor - initialize fields
+	/**
+	 * constructor
+	 */
 	public AVLTree() {
 		this.nodeCount = 0;
 		this.root = null;
@@ -91,7 +93,7 @@ public class AVLTree {
 	 * Recursive helper function for insert Creates new Node object with value val
 	 * and iterates through the tree to find the correct position to insert
 	 * 
-	 * @param node, the node tha val will be compared against to determine position
+	 * @param node, the node that val will be compared against to determine position
 	 *              for insert
 	 * @param val,  the integer value to insert (new Node with value val) into the
 	 *              AVL tree
@@ -123,8 +125,8 @@ public class AVLTree {
 	/**
 	 * Find height of AVL tree node
 	 * 
-	 * @param node
-	 * @return
+	 * @param node, Node of the AVL tree
+	 * @return int, height of the node
 	 */
 	public int findHeight(Node node) {
 		// If the node is null, we return -1, which is useful for balance factor
@@ -168,51 +170,32 @@ public class AVLTree {
 	public Node remove(Node root, int val) {
 
 		if (root == null) {
-	
 			return root;
 		}
-		
 
 		if (val < root.val) {
-			
-
 			root.left = remove(root.left, val);
-
-			
 		} else if (val > root.val) {
-			
-
 			root.right = remove(root.right, val);
-			
 		} else {
 			// Node with only one child or no child
 			if ((root.left == null) || (root.right == null)) {
 				Node temp = null;
 				if (temp == root.left) {
-					
-
 					temp = root.right;
 				} else {
-					
-
 					temp = root.left;
 				}
 
 				// No child case
 				if (temp == null) {
-					
 					temp = root;
-					
 					root = null;
-					
 				} else { // One child case
-				
 					root = temp; // Copy the contents of the non-empty child
 				}
 				nodeCount--;
 			} else {
-
-				
 
 				// Node with two children: Get the inorder successor (smallest in the right
 				// subtree)
@@ -228,7 +211,6 @@ public class AVLTree {
 
 		// If the tree had only one node then return
 		if (root == null) {
-			
 			return root;
 		}
 
@@ -292,11 +274,15 @@ public class AVLTree {
 			str += toStringHelper(tmp.right, str);
 			depth--;
 		}
-
 		return str;
 	}
 
-	// Utility method to perform a right rotation
+	/**
+	 * Utility method to perform a right rotation
+	 * 
+	 * @param y, the node of the AVL tree
+	 * @return node, the rotated AVL tree node
+	 */
 	private Node rotateRight(Node y) {
 
 		Node x = y.left;
@@ -314,7 +300,12 @@ public class AVLTree {
 		return x;
 	}
 
-	// Utility method to perform a left rotation
+	/**
+	 * Utility method to perform a left rotation
+	 * 
+	 * @param x, the node of the AVL tree
+	 * @return node, the rotated AVL tree node 
+	 */
 	private Node rotateLeft(Node x) {
 
 		Node y = x.right;
@@ -332,14 +323,24 @@ public class AVLTree {
 		return y;
 	}
 
-	// Get balance factor of a node
+	/**
+	 * Get balance factor of a node
+	 * 
+	 * @param N, the node of the AVL tree
+	 * @return int, the balance factor
+	 */
 	private int getBalance(Node N) {
 		if (N == null)
 			return 0;
 		return findHeight(N.left) - findHeight(N.right);
 	}
-
-	// Rebalance the tree at node and return the new root
+	
+	/**
+	 * Rebalance the tree at node and return the new root
+	 * 
+	 * @param z, the Node where the rebalancing starts
+	 * @return node, the rebalanced subtree
+	 */
 	Node rebalance(Node z) {
 		// Update height of this ancestor node
 		z.height = 1 + Math.max(findHeight(z.left), findHeight(z.right));
@@ -376,6 +377,12 @@ public class AVLTree {
 		return z;
 	}
 
+	/**
+	 * Find min
+	 * 
+	 * @param node, the node of the AVL tree
+	 * @return node, the minimum node
+	 */
 	private Node findMin(Node node) {
 		Node current = node;
 		while (current.left != null) {

@@ -74,7 +74,17 @@ public class Test {
 				System.out.println(testName + result);
 				return;
 			}
+			if (!tree.isBalanced(tree.root())) {
+				System.out.println(testName + result);
+				return;
+			}
 		}
+		
+		if (!tree.isBalanced(tree.root())) {
+			System.out.println(testName + result);
+			return;
+		}
+		
 		System.out.println("isBalanced: " + tree.isBalanced(tree.root()));
 		System.out.println("tree height: " + tree.height());
 		System.out.println("tree size: " + tree.size());
@@ -84,6 +94,10 @@ public class Test {
 			tree.root = tree.remove(tree.root(), i);
 			numNodes--;
 			if (tree.size() != numNodes) {
+				System.out.println(testName + result);
+				return;
+			}
+			if (!tree.isBalanced(tree.root())) {
 				System.out.println(testName + result);
 				return;
 			}

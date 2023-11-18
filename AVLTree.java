@@ -77,13 +77,34 @@ public class AVLTree {
 	}
 
 	/**
+	 * Search for an integer value to see if it is in the tree
+	 * 
+	 * @param val, the integer to search for
+	 * 
+	 * @return Node, the Node that contains val if it exists, null if the value does not exist in the tree
+	 */
+	public Node get(int val) {
+		Node node = root;
+		while (node != null) {
+			if (node.val == val) {
+				return node;
+			}
+			else if (val < node.val) {
+				node = node.left;
+			}
+			else if (val > node.val) {
+				node = node.right;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Insert a new Node into the AVLTree with value val Call recursive helper
 	 * function insertHelper with (root, val) Note: pass root node to helper
 	 * 
 	 * @return integer, the number of elements in the AVL tree
 	 */
-
-	// Modify the insert method like so:
 	public void insert(int val) {
 		root = insertHelper(root, val); // Ensure the root is updated with the new tree structure
 		this.height = root.height; // Update the tree height after insertion
@@ -99,7 +120,6 @@ public class AVLTree {
 	 *              AVL tree
 	 * @return AVLTree, the root node of the AVL tree
 	 */
-
 	public Node insertHelper(Node node, int val) {
 		if (node == null) {
 			nodeCount++;

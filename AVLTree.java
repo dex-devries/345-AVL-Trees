@@ -411,4 +411,64 @@ public class AVLTree {
 		return current;
 	}
 
+	/**
+	 * This is a recursive implementation of an in order traversal of the tree
+	 * Prints the values in the tree in correct order according to in order algorithm below
+	 * Process left subtree of node (recursive call), visit node, process right subtree of node (recursive call)
+	 * 
+	 * @param node
+	 */
+	public void inOrder(Node node) {
+		if (node == null) {return;}
+
+        // left subtree call
+        inOrder(node.left);
+ 
+        // visit node between left and right subtree calls
+        System.out.print(node.val + " ");
+ 
+        // right subtree call
+        inOrder(node.right);
+	}
+
+	/**
+	 * This is a recursive implementation of a pre order traversal of the tree
+	 * Prints the values in the tree in correct order according to pre order algorithm below
+	 * Visit node, process left subtree of node (recursive call), process right subtree of node (recursive call)
+	 * 
+	 * @param node
+	 */
+	public void preOrder(Node node) {
+		if (node == null) {return;}
+      		
+    	// visit node before left and right subtree calls
+    	System.out.print(node.val + " ");
+ 
+    	// left subtree call
+    	preOrder(node.left);
+ 
+    	// right subtree call
+    	preOrder(node.right);
+	}
+
+	/**
+	 * This is a recursive implementation of a post order traversal of the tree
+	 * Prints the values in the tree in correct order according to post order algorithm below
+	 * Process left subtree of node (recursive call), process right subtree of node (recursive call), visit node
+	 * 
+	 * @param node
+	 */
+	public void postOrder(Node node) {
+		if (node == null) {return;}
+ 
+    	// left subtree call
+    	postOrder(node.left);
+ 
+    	// right subtree call
+    	postOrder(node.right);
+
+    	// visit node after left and right subtree calls
+    	System.out.print(node.val + " ");
+	}
+
 }

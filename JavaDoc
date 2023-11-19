@@ -1,0 +1,446 @@
+/**
+ * Represents an AVL (Adelson-Velskii and Landis) Tree, a self-balancing binary search tree.
+ * In an AVL tree, the heights of the two child subtrees of any node differ by no more than one.
+ * If at any time they differ by more than one, rebalancing is done to restore this property.
+ * This implementation of an AVL tree provides operations for insertion, deletion, and lookup 
+ * in O(log n) time complexity.
+ * 
+ * AUTHORS: Dexter DeVries, Anisha Munjal, Kayla Pierson, Gurvir Dhillon
+ * FILE: AVLTree.java
+ * ASSIGNMENT: Project
+ * COURSE: CSC 345, Fall 2023
+ */
+public class AVLTree {
+
+    /**
+     * Inner class representing a node in the AVL Tree. Each node contains an integer value,
+     * its height in the tree, and references to its left and right child nodes.
+     */
+    class Node {
+        int val;    // The integer value of this node
+        int height; // The height of this node in the AVL tree
+        Node left;  // Reference to the left child node
+        Node right; // Reference to the right child node
+
+        /**
+         * Constructs a new Node with a specified value. Initializes the left and right children
+         * to null and the node's height to 0.
+         * 
+         * @param val The integer value to be stored in the node.
+         */
+        public Node(int val) {
+            this.val = val;
+            this.height = 0;
+            this.left = null;
+            this.right = null;
+        }
+    }
+
+    private int nodeCount; // The number of nodes in the AVL tree
+    public Node root;     // The root node of the AVL tree
+    private int height;   // The height of the AVL tree
+    private int depth;    // Depth of the tree, used for certain operations
+
+    /**
+     * Constructs an empty AVL tree. Initializes the tree with no nodes (nodeCount = 0),
+     * a null root, and a height of 0.
+     */
+    public AVLTree() {
+        this.nodeCount = 0;
+        this.root = null;
+        this.height = 0;
+        this.depth = 0;
+    }
+
+    /**
+     * Checks if the AVL tree is empty.
+     * 
+     * @return True if the tree is empty (no nodes), false otherwise.
+     */
+    public boolean isEmpty() {
+        return nodeCount == 0;
+    }
+
+    /**
+     * Returns the height of the AVL tree. The height is the number of edges in the longest path 
+     * from the root to a leaf node.
+     * 
+     * @return The height of the tree.
+     */
+    public int height() {
+        return height;
+    }
+
+    /**
+     * Retrieves the number of nodes in the AVL tree.
+     * 
+     * @return The total number of nodes in the tree.
+     */
+    public int size() {
+        return nodeCount;
+    }
+
+    /**
+     * Provides access to the root node of the AVL tree.
+     * 
+     * @return The root node of the tree.
+     */
+    public Node root() {
+        return root;
+    }
+
+  /**
+ * Searches for a node with a specific integer value in the AVL tree.
+ * 
+ * @param val The integer value to search for in the tree.
+ * @return The node that contains the specified value if it exists in the tree, 
+ *         otherwise returns null.
+ */
+public Node get(int val) {
+    Node node = root;
+    while (node != null) {
+        if (node.val == val) {
+            return node;
+        } else if (val < node.val) {
+            node = node.left;
+        } else if (val > node.val) {
+            node = node.right;
+        }
+    }
+    return null;
+}
+
+/**
+ * Inserts a new node with a specified value into the AVL tree. This method
+ * calls the recursive helper function `insertHelper` to find the correct
+ * position for the new node.
+ * 
+ * @param val The integer value to insert into the tree.
+ */
+public void insert(int val) {
+    root = insertHelper(root, val); // Ensure the root is updated with the new tree structure
+    this.height = (root != null) ? root.height : 0; // Update the tree height after insertion
+}
+
+/**
+ * Recursive helper function for inserting a new node into the AVL tree. It creates
+ * a new Node object with the specified value and finds the correct position in the tree
+ * to insert it, maintaining the AVL tree properties.
+ * 
+ * @param node The node against which the new value is compared to determine the position for insertion.
+ * @param val  The integer value to insert into the AVL tree.
+ * @return The root node of the AVL tree after insertion.
+ */
+public Node insertHelper(Node node, int val) {
+    if (node == null) {
+        nodeCount++;
+        return new Node(val);
+    }
+
+    if (val < node.val) {
+        node.left = insertHelper(node.left, val);
+    } else if (val > node.val) {
+        node.right = insertHelper(node.right, val);
+    } else {
+        // Duplicate keys not allowed
+        return node;
+    }
+
+    // Update height of this ancestor node
+    node.height = 1 + Math.max(findHeight(node.left), findHeight(node.right));
+
+    // Rebalance the node if needed
+    return rebalance(node);
+}
+
+/**
+ * Finds the height of a given node in the AVL tree. The height is the number of edges
+ * from the node to the deepest leaf. If the node is null, returns -1, which is useful
+ * for balance factor calculations.
+ * 
+ * @param node The node of the AVL tree whose height is to be calculated.
+ * @return The height of the node, or -1 if the node is null.
+ */
+public int findHeight(Node node) {
+    if (node == null) {
+        return -1;
+    }
+    return node.height;
+}
+
+/**
+ * Checks whether the AVL Tree is balanced starting from the given node. A tree is considered 
+ * balanced if for every node, the height difference between its left and right subtree is at most one.
+ * 
+ * @param root The root node of the AVL tree or subtree to check for balance.
+ * @return True if the AVL tree is balanced from the given node, false otherwise.
+ */
+public boolean isBalanced(Node root) {
+    if (root == null) {
+        return true;
+    } else {
+        int left_treeHeight = findHeight(root.left);
+        int right_treeHeight = findHeight(root.right);
+
+        return Math.abs(left_treeHeight - right_treeHeight) <= 1 
+               && isBalanced(root.left) 
+               && isBalanced(root.right);
+    }
+}
+
+/**
+ * Removes a node with the specified value from the AVL tree. This method handles 
+ * the cases where the node to be removed has no child, one child, or two children. 
+ * It ensures that the AVL tree properties are maintained after the removal, rebalancing 
+ * the tree if necessary.
+ * 
+ * @param root The root of the tree or subtree from which to remove the node.
+ * @param val  The value of the node that is to be removed.
+ * @return The root of the tree or subtree after removing the specified node.
+ */
+public Node remove(Node root, int val) {
+    if (root == null) {
+        return null;
+    }
+
+    if (val < root.val) {
+        root.left = remove(root.left, val);
+    } else if (val > root.val) {
+        root.right = remove(root.right, val);
+    } else {
+        // Node with one child or no child
+        if (root.left == null || root.right == null) {
+            Node temp = (root.left != null) ? root.left : root.right;
+
+            // No child case
+            if (temp == null) {
+                temp = root;
+                root = null;
+            } else {
+                root = temp; // One child case
+            }
+            nodeCount--;
+        } else {
+            // Node with two children: Get the inorder successor (smallest in the right subtree)
+            Node temp = findMin(root.right);
+
+            // Copy the inorder successor's data to this node
+            root.val = temp.val;
+
+            // Delete the inorder successor
+            root.right = remove(root.right, temp.val);
+        }
+    }
+
+    if (root == null) {
+        return null;
+    }
+
+    // Update height of the current node
+    root.height = Math.max(findHeight(root.left), findHeight(root.right)) + 1;
+
+    // Rebalance the tree
+    return rebalance(root);
+}
+
+/**
+ * Generates a string representation of the AVL tree. If the tree is empty, it returns
+ * a message indicating so. Otherwise, it returns a detailed representation of the tree
+ * including each node's value and height, and the heights of its left and right subtrees.
+ * 
+ * @return A string representation of the AVL tree.
+ */
+public String toString() {
+    if (root == null) {
+        return "AVL tree is empty.";
+    }
+    return toStringHelper(root, "");
+}
+
+/**
+ * Recursive helper method to generate a string representation of the tree.
+ * This method traverses the tree in pre-order, adding details of each node to the string.
+ * 
+ * @param node The current node being processed.
+ * @param str  The current state of the string representation.
+ * @return The updated string representation including the current node.
+ */
+private String toStringHelper(Node node, String str) {
+    if (node == null) {
+        return str;
+    }
+
+    str += String.format("(%d ,h=%d, lh=%d, rh=%d)\n",
+                         node.val, findHeight(node),
+                         (node.left != null ? findHeight(node.left) : 0),
+                         (node.right != null ? findHeight(node.right) : 0));
+
+    str = toStringHelper(node.left, str);
+    str = toStringHelper(node.right, str);
+
+    return str;
+}
+
+/**
+ * Performs a right rotation around the specified node. This rotation is used
+ * to rebalance the tree in cases where the left subtree is too tall.
+ * 
+ * @param y The node around which to perform the right rotation.
+ * @return The new root node after the rotation.
+ */
+private Node rotateRight(Node y) {
+    Node x = y.left;
+    Node T2 = x.right;
+
+    // Perform rotation
+    x.right = y;
+    y.left = T2;
+
+    // Update heights
+    y.height = Math.max(findHeight(y.left), findHeight(y.right)) + 1;
+    x.height = Math.max(findHeight(x.left), findHeight(x.right)) + 1;
+
+    // Return new root
+    return x;
+}
+
+/**
+ * Performs a left rotation around the specified node. This rotation is used
+ * to rebalance the tree in cases where the right subtree is too tall.
+ * 
+ * @param x The node around which to perform the left rotation.
+ * @return The new root node after the rotation.
+ */
+private Node rotateLeft(Node x) {
+    Node y = x.right;
+    Node T2 = y.left;
+
+    // Perform rotation
+    y.left = x;
+    x.right = T2;
+
+    // Update heights
+    x.height = Math.max(findHeight(x.left), findHeight(x.right)) + 1;
+    y.height = Math.max(findHeight(y.left), findHeight(y.right)) + 1;
+
+    // Return new root
+    return y;
+}
+
+/**
+ * Computes the balance factor of a given node. The balance factor is defined as
+ * the difference in height between the node's left subtree and right subtree.
+ * 
+ * @param node The node for which to compute the balance factor.
+ * @return The balance factor of the node.
+ */
+private int getBalance(Node node) {
+    if (node == null) {
+        return 0;
+    }
+    return findHeight(node.left) - findHeight(node.right);
+}
+
+
+/**
+ * Rebalances the tree at the specified node. This method applies rotations to ensure
+ * that the AVL tree maintains its balancing properties after insertions or deletions.
+ * 
+ * @param z The node where the rebalancing process begins.
+ * @return The root of the rebalanced subtree.
+ */
+Node rebalance(Node z) {
+    z.height = 1 + Math.max(findHeight(z.left), findHeight(z.right));
+
+    int balance = getBalance(z);
+
+    // Left Left Case
+    if (balance > 1 && getBalance(z.left) >= 0) {
+        return rotateRight(z);
+    }
+
+    // Left Right Case
+    if (balance > 1 && getBalance(z.left) < 0) {
+        z.left = rotateLeft(z.left);
+        return rotateRight(z);
+    }
+
+    // Right Right Case
+    if (balance < -1 && getBalance(z.right) <= 0) {
+        return rotateLeft(z);
+    }
+
+    // Right Left Case
+    if (balance < -1 && getBalance(z.right) > 0) {
+        z.right = rotateRight(z.right);
+        return rotateLeft(z);
+    }
+
+    return z;
+}
+
+/**
+ * Finds the node with the minimum value in the AVL tree or subtree rooted at the specified node.
+ * 
+ * @param node The root node of the tree or subtree.
+ * @return The node with the minimum value in the tree or subtree.
+ */
+private Node findMin(Node node) {
+    Node current = node;
+    while (current.left != null) {
+        current = current.left;
+    }
+    return current;
+}
+
+/**
+ * Performs an in-order traversal of the AVL tree, printing the values of the nodes.
+ * In an in-order traversal, the left subtree is visited first, then the current node,
+ * and finally the right subtree.
+ * 
+ * @param node The root node of the tree or subtree to traverse.
+ */
+public void inOrder(Node node) {
+    if (node == null) {
+        return;
+    }
+
+    inOrder(node.left);
+    System.out.print(node.val + " ");
+    inOrder(node.right);
+}
+
+/**
+ * Performs a pre-order traversal of the AVL tree, printing the values of the nodes.
+ * In a pre-order traversal, the current node is visited first, then the left subtree,
+ * and finally the right subtree.
+ * 
+ * @param node The root node of the tree or subtree to traverse.
+ */
+public void preOrder(Node node) {
+    if (node == null) {
+        return;
+    }
+
+    System.out.print(node.val + " ");
+    preOrder(node.left);
+    preOrder(node.right);
+}
+
+/**
+ * Performs a post-order traversal of the AVL tree, printing the values of the nodes.
+ * In a post-order traversal, the left subtree is visited first, then the right subtree,
+ * and finally the current node.
+ * 
+ * @param node The root node of the tree or subtree to traverse.
+ */
+public void postOrder(Node node) {
+    if (node == null) {
+        return;
+    }
+
+    postOrder(node.left);
+    postOrder(node.right);
+    System.out.print(node.val + " ");
+}
+
